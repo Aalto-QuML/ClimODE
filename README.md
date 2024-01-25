@@ -1,7 +1,19 @@
 # ClimODE: Climate Forecasting With Physics-informed Neural ODEs
 
-The code repository for the paper ClimODE: Climate Forecasting With Physics-informed Neural ODEs
+The code repository for the paper ClimODE: Climate Forecasting With Physics-informed Neural ODEs. More information can be found on the project [website](https://yogeshverma1998.github.io/ClimODE/). 
 
+## Citation
+ ```
+@inproceedings{
+anonymous2024climode,
+title={Clim{ODE}: Climate Forecasting With Physics-informed Neural {ODE}s},
+author={Yogesh Verma, Markus Heinonen, Vikas Garg},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+url={https://openreview.net/forum?id=xuY33XhEGR}
+}
+
+```
 
 ## Prerequisites
 
