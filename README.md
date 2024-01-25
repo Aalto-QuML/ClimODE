@@ -5,6 +5,7 @@ The code repository for the paper ClimODE: Climate Forecasting With Physics-info
 </p>
 
 ## Citation
+If you find this repository useful in your research, please consider citing the following paper:
  ```
 @inproceedings{
 anonymous2024climode,
