@@ -39,9 +39,9 @@ train_time_scale= slice('2006','2016')
 val_time_scale = slice('2016','2016')
 test_time_scale = slice('2017','2018')
 
-paths_to_data = [str(cwd) + '/era5_data/geopotential_500/*.nc',str(cwd) + '/era5_data/temperature_850/*.nc',str(cwd) + '/era5_data/2m_temperature/*.nc',str(cwd) + '/era5_data/10m_u_component_of_wind/*.nc',str(cwd) + '/era5_data/10m_v_component_of_wind/*.nc',str(cwd) + '/era5_data/v_component_of_wind/*.nc',str(cwd) + '/era5_data/u_component_of_wind/*.nc',str(cwd) + '/era5_data/relative_humidity/*.nc',str(cwd) + '/era5_data/specific_humidity/*.nc']
+paths_to_data = [str(cwd) + '/era5_data/geopotential_500/*.nc',str(cwd) + '/era5_data/temperature_850/*.nc',str(cwd) + '/era5_data/2m_temperature/*.nc',str(cwd) + '/era5_data/10m_u_component_of_wind/*.nc',str(cwd) + '/era5_data/10m_v_component_of_wind/*.nc']
 const_info_path = [str(cwd) + '/era5_data/constants/constants_5.625deg.nc']
-levels = ["z","t","t2m","u10","v10","v","u","r","q"]
+levels = ["z","t","t2m","u10","v10"]
 paths_to_data = paths_to_data[0:5]
 levels = levels[0:5]
 assert len(paths_to_data) == len(levels), "Paths to different type of data must be same as number of types of observations"
