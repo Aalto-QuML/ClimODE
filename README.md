@@ -1,5 +1,5 @@
-# ClimODE: Climate Forecasting With Physics-informed Neural ODEs
-The code repository for the paper ClimODE: Climate Forecasting With Physics-informed Neural ODEs. More information can be found on the project [website](https://yogeshverma1998.github.io/ClimODE/). 
+# ClimODE: Climate and Weather Forecasting With Physics-informed Neural ODEs
+The code repository for the paper ClimODE: Climate and Weather Forecasting With Physics-informed Neural ODEs. More information can be found on the project [website](https://yogeshverma1998.github.io/ClimODE/). 
 <p align="center">
   <img src="https://github.com/Aalto-QuML/ClimODE/blob/main/workflow_final_climate_v6.png" />
 </p>
