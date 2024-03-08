@@ -8,9 +8,9 @@ The code repository for the paper ClimODE: Climate and Weather Forecasting With 
 If you find this repository useful in your research, please consider citing the following paper:
  ```
 @inproceedings{
-anonymous2024climode,
+verma2024climode,
 title={Clim{ODE}: Climate Forecasting With Physics-informed Neural {ODE}s},
-author={Yogesh Verma, Markus Heinonen, Vikas Garg},
+author={Yogesh Verma and Markus Heinonen and Vikas Garg},
 booktitle={The Twelfth International Conference on Learning Representations},
 year={2024},
 url={https://openreview.net/forum?id=xuY33XhEGR}
@@ -41,7 +41,7 @@ era5_data
    |-- temperature_850
 ```
 
-## Training
+## Training ERA5
 
 ### Global Forecast
 
@@ -58,7 +58,7 @@ To train ClimODE for regional forecast among various regions of earth use,
 python train_region.py --scale 0 --batch_size 8 --spectral 0 --solver "euler" --region 'NorthAmerica/SouthAmerica/Australia'
 ```
 
-## Evaluation
+## Evaluation ERA5
 
 ### Global Forecast
 
@@ -73,6 +73,12 @@ To evaluate ClimODE for regional forecast on Lat. weighted RMSE and ACC use, (Ma
 ```
 python evaluation_region.py --spectral 0 --scale 0 --region 'NorthAmerica/SouthAmerica/Australia'
 ```
+
+## Training on a different custom dataset
+
+To need to train on the custom dataset, you need to change follow the below guidelines,
+
+- 
 
 
 
