@@ -62,7 +62,7 @@ python train_monthly.py --scale 0 --batch_size 4 --spectral 0 --solver "euler"
 
 ### Regional Forecast
 
-To train ClimODE for regional forecast among various regions of earth use,
+To train ClimODE for regional forecasts among various regions of earth use,
 ```
 python train_region.py --scale 0 --batch_size 8 --spectral 0 --solver "euler" --region 'NorthAmerica/SouthAmerica/Australia'
 ```
@@ -95,9 +95,12 @@ python evaluation_region.py --spectral 0 --scale 0 --region 'NorthAmerica/SouthA
 
 ## Training on a different custom dataset
 
-To need to train on the custom dataset, you need to change follow the below guidelines,
+To train on a custom dataset, you need to follow the below guidelines
 
-- 
+- **Data Loading**: You might want to change the data loading scheme depending on your data (e.g. seasonal, daily, etc., and with many different input channels), which can be found in ```utils.py``` in the data-loading function.
+- **Fitting initial velocity**: Depending on the data, you need to estimate the initial velocity to train and test the model (For more details, see the manuscript).
+- **Model Function**: Depending on the input observable quantities, you might need to modify the number of input channels to model function in ```model_function.py```.
+
 
 
 
