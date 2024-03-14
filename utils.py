@@ -16,10 +16,6 @@ from scipy import interpolate
 import scipy
 from model_utils import *
 from torch.utils.data import DataLoader
-#import cartopy.crs as ccrs
-#from cartopy.util import add_cyclic_point
-#import cartopy.mpl.ticker as cticker
-#import geopy.distance
 import matplotlib.patches as patches
 import matplotlib.colors as colors
 
