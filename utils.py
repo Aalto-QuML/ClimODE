@@ -376,4 +376,53 @@ def load_velocity(types):
 
 
 
+def get_batched_monthly(train_times,data_train_final,lev):
+    for idx,year in enumerate(train_times):
+        data_per_year = data_train_final.sel(time=slice(str(year),str(year))).load()
+        data_values = data_per_year[lev].values
+        t_data = torch.from_numpy(data_values).reshape(-1,1,1,data_values.shape[-2],data_values.shape[-1])
+        if idx ==0:
+            train_data = t_data
+        else:
+            train_data = torch.cat([train_data,t_data],dim=1)
+    
+    return train_data
+
+
+
+def get_train_test_data_without_scales_batched_monthly(data_path,train_time_scale,val_time_scale,test_time_scale,lev,spectral):
+    data = xr.open_mfdataset(data_path, combine='by_coords')
+    if lev in ["v","u","r","q","tisr"]:
+        data = data.sel(level=500)
+    data = data.resample(time="6H").nearest(tolerance="1H") # Setting data to be 6-hour cycles
+    data = data.resample(time="MS").mean()
+
+    data_train = data.sel(time=train_time_scale).load()
+    data_val = data.sel(time=val_time_scale).load()
+    data_test = data.sel(time=test_time_scale).load()
+    data_global = data.sel(time=slice('2006','2018')).load()
+
+    max_val = data_global.max()[lev].values.tolist()
+    min_val = data_global.min()[lev].values.tolist()
+
+    data_train_final = (data_train - min_val)/ (max_val - min_val)
+    data_val_final = (data_val - min_val)/ (max_val - min_val)
+    data_test_final = (data_test - min_val)/ (max_val - min_val)
+
+    time_vals = data_test_final.time.values
+    train_times = [i for i in range(2006,2016)]
+    test_times = [2017,2018]
+    val_times = [2016]
+
+    train_data = get_batched_monthly(train_times,data_train_final,lev)
+    test_data = get_batched_monthly(test_times,data_test_final,lev)
+    val_data = get_batched_monthly(val_times,data_val_final,lev)
+
+
+    t = [i for i in range(12)]
+    time_steps = torch.tensor(t).view(-1,1)
+
+    return train_data,val_data,test_data,time_steps,data.lat.values,data.lon.values,max_val,min_val,time_vals
+
+
 
