@@ -30,6 +30,7 @@ parser.add_argument('--rtol', type=float, default=5e-3)
 parser.add_argument("--step_size", type=float, default=None, help="Optional fixed step size.")
 parser.add_argument('--scale', type=int, default=0)
 parser.add_argument('--days', type=int, default=3)
+parser.add_argument('--batch_size', type=int, default=8)
 parser.add_argument('--spectral', type=int, default=0,choices=[0,1])
 parser.add_argument('--region', type=str, default='NorthAmerica',choices=BOUNDARIES)
 args = parser.parse_args()
@@ -75,8 +76,8 @@ const_channels_info,lat_map,lon_map = add_constant_info_region(const_info_path,a
 
 if args.spectral == 1: print("############## Running the Model in Spectral Domain ####################")
 clim = torch.mean(Final_test_data,dim=0)
-Test_loader = DataLoader(Final_test_data[2:],batch_size=8,shuffle=False)
-time_loader = DataLoader(time_steps[2:],batch_size=8,shuffle=False)
+Test_loader = DataLoader(Final_test_data[2:],batch_size=args.batch_size,shuffle=False)
+time_loader = DataLoader(time_steps[2:],batch_size=args.batch_size,shuffle=False)
 total_time_len = len(time_steps[2:])
 total_time_steps = time_steps[2:].numpy().flatten().tolist()
 num_years  = 2
@@ -89,8 +90,8 @@ RMSD = []
 RMSD_lat_lon= []
 Pred = []
 Truth  = []
-Lead_RMSD_arr = {"z":[[] for _ in range(7)],"t":[[] for _ in range(7)],"t2m":[[] for _ in range(7)],"u10":[[] for _ in range(7)],"v10":[[] for _ in range(7)]}
-Lead_ACC = {"z":[[] for _ in range(7)],"t":[[] for _ in range(7)],"t2m":[[] for _ in range(7)],"u10":[[] for _ in range(7)],"v10":[[] for _ in range(7)]}
+Lead_RMSD_arr = {"z":[[] for _ in range(args.batch_size-1)],"t":[[] for _ in range(args.batch_size-1)],"t2m":[[] for _ in range(args.batch_size-1)],"u10":[[] for _ in range(args.batch_size-1)],"v10":[[] for _ in range(args.batch_size-1)]}
+Lead_ACC = {"z":[[] for _ in range(args.batch_size-1)],"t":[[] for _ in range(args.batch_size-1)],"t2m":[[] for _ in range(args.batch_size-1)],"u10":[[] for _ in range(args.batch_size-1)],"v10":[[] for _ in range(args.batch_size-1)]}
 
 for entry,(time_steps,batch) in enumerate(zip(time_loader,Test_loader)):
   data = batch[0].to(device).view(num_years,1,len(paths_to_data)*(args.scale+1),H,W)
@@ -106,7 +107,7 @@ for entry,(time_steps,batch) in enumerate(zip(time_loader,Test_loader)):
                     Lead_RMSD_arr[lev][t_step-1].append(evaluate_rmsd[idx])
                     Lead_ACC[lev][t_step-1].append(evaluate_acc[idx])
 
-for t_idx in range(7):
+for t_idx in range(args.batch_size-1):
     for idx, lev in enumerate(levels):
         print("Lead Time ",(t_idx+1)*6, "hours ","| Observable ",lev, "| Mean RMSD ", np.mean(Lead_RMSD_arr[lev][t_idx]), "| Std RMSD ", np.std(Lead_RMSD_arr[lev][t_idx]))
         print("Lead Time ",(t_idx+1)*6, "hours ","| Observable ",lev, "| Mean ACC ", np.mean(Lead_ACC[lev][t_idx]), "| Std ACC ", np.std(Lead_ACC[lev][t_idx]))
