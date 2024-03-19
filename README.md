@@ -74,7 +74,7 @@ python train_region.py --scale 0 --batch_size 8 --spectral 0 --solver "euler" --
 To evaluate ClimODE for global forecast on Lat. weighted RMSE and ACC use, (Make sure to change the model path in the file)
 
 ```
-python evaluation_global.py --spectral 0 --scale 0 
+python evaluation_global.py --spectral 0 --scale 0 --batch_size 8 
 ```
 
 ### Global Monthly Forecast
@@ -82,7 +82,7 @@ python evaluation_global.py --spectral 0 --scale 0
 To evaluate ClimODE for global monthly forecast on Lat. weighted RMSE and ACC use, (Make sure to change the model path in the file)
 
 ```
-python evaluation_monthly.py --spectral 0 --scale 0 
+python evaluation_monthly.py --spectral 0 --scale 0 --batch_size 4 
 ```
 
 ### Regional Forecast
@@ -90,7 +90,7 @@ python evaluation_monthly.py --spectral 0 --scale 0
 To evaluate ClimODE for regional forecast on Lat. weighted RMSE and ACC use, (Make sure to change the model path in the file)
 
 ```
-python evaluation_region.py --spectral 0 --scale 0 --region 'NorthAmerica/SouthAmerica/Australia'
+python evaluation_region.py --spectral 0 --scale 0 --region 'NorthAmerica/SouthAmerica/Australia' --batch_size 8 
 ```
 
 ## Training on a different custom dataset
