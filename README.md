@@ -27,7 +27,7 @@ url={https://openreview.net/forum?id=xuY33XhEGR}
 - torch-cluster 
 - torch-spline-conv 
 - torchcubicspline: https://github.com/patrick-kidger/torchcubicspline
-- properscoring : https://pypi.org/project/properscoring/
+- properscoring (for CRPS scores) : https://pypi.org/project/properscoring/
 
 ## Data Preparation
 
