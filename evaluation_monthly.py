@@ -112,7 +112,7 @@ for entry,(time_steps,batch) in enumerate(zip(time_loader,Test_loader)):
         mean_avg = mean_pred.view(-1,len(paths_to_data)*(args.scale+1),H,W)
         std_avg = std_pred.view(-1,len(paths_to_data)*(args.scale+1),H,W)
 
-        for yr in range(1): 
+        for yr in range(2): 
             for t_step in range(1,len(time_steps),1):
                 evaluate_rmsd = evaluation_rmsd_mm(mean_pred[t_step,yr,:,:,:].cpu(),batch[t_step,yr,:,:,:].cpu(),lat,lon,max_lev,min_lev,H,W,levels)
                 evaluate_acc = evaluation_acc_mm(mean_pred[t_step,yr,:,:,:].cpu(),batch[t_step,yr,:,:,:].cpu(),lat,lon,max_lev,min_lev,H,W,levels,clim[yr,:,:,:].cpu().detach().numpy())
