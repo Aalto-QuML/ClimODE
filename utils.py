@@ -18,6 +18,7 @@ from model_utils import *
 from torch.utils.data import DataLoader
 import matplotlib.patches as patches
 import matplotlib.colors as colors
+import properscoring as ps
 
 
 BOUNDARIES = {
@@ -231,6 +232,22 @@ def evaluation_acc_mm(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels,clim):
     return ACC_final
 
 
+def evaluation_crps_mm(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels,Sigma):
+    CRPS_final = []
+    
+    for idx,lev in enumerate(levels):
+        pred_spectral = Pred[idx].detach().cpu().numpy()
+        true_spectral = Truth[idx,:,:].detach().cpu().numpy()
+        std_spectral = Sigma[idx].detach().cpu().numpy()
+
+        pred = pred_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
+        true = true_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
+
+        crps = ps.crps_gaussian(true_spectral, mu=pred_spectral, sig=std_spectral)
+        CRPS_final.append(crps)                                                        
+
+    
+    return CRPS_final
 def add_constant_info(path):
     data = xr.open_mfdataset(path, combine='by_coords')
     for idx,var in enumerate(['orography','lsm']):
