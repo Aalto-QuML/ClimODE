@@ -27,6 +27,7 @@ url={https://openreview.net/forum?id=xuY33XhEGR}
 - torch-cluster 
 - torch-spline-conv 
 - torchcubicspline: https://github.com/patrick-kidger/torchcubicspline
+- properscoring : https://pypi.org/project/properscoring/
 
 ## Data Preparation
 
@@ -100,7 +101,7 @@ To train on a custom dataset, you need to follow the below guidelines
 - **Data Loading**: You might want to change the data loading scheme depending on your data (e.g. seasonal, daily, etc., and with many different input channels), which can be found in ```utils.py``` in the data-loading function.
 - **Fitting initial velocity**: Depending on the data, you need to estimate the initial velocity to train and test the model (For more details, see the manuscript) via the ```fit_velocity``` function. 
 - **Model Function**: Depending on the input observable quantities, you might need to modify the number of input channels to model function in ```model_function.py```.
-- **Training and evaluation**: Depending on your dataset, you might want to fine-tune and change the various hyper-parameters in training and evaluation files. Make sure to make them consistent in both of them. 
+- **Training and evaluation**: Depending on your dataset, you might want to fine-tune and change the various hyper-parameters in training and evaluation files. Make sure to make them consistent in both of them. Also, we report CRPS scores for global hourly forecast only, if you want to compute them for every task please include the ```evaluation_crps_mm``` function.
 
 
 
