@@ -84,7 +84,7 @@ otal_time_len = len(time_steps[2:])
 total_time_steps = time_steps[2:].numpy().flatten().tolist()
 num_years  = 2
 
-vel_test= torch.from_numpy(np.load('test_monthly_big_vel.npy'))
+vel_test= torch.from_numpy(np.load('test_monthly_vel.npy'))
 model = torch.load(str(cwd) + "##Model Path",map_location=torch.device('cpu')).to(device)
 print(model)
 
@@ -108,9 +108,6 @@ for entry,(time_steps,batch) in enumerate(zip(time_loader,Test_loader)):
         model.update_param([past_sample,const_channels_info.to(device),lat_map.to(device),lon_map.to(device)])
         t = time_steps.float().to(device).flatten()
         mean_pred,std_pred,_ = model(t,data)
-        mean_lat_lon = mean_pred[:,0,:,lat_idx,lon_idx].detach().numpy()
-        std_lat_lon = std_pred[:,0,:,lat_idx,lon_idx].detach().numpy()
-        true_lat_lon = batch[:,0,:,lat_idx,lon_idx].detach().numpy()
 
         mean_avg = mean_pred.view(-1,len(paths_to_data)*(args.scale+1),H,W)
         std_avg = std_pred.view(-1,len(paths_to_data)*(args.scale+1),H,W)
