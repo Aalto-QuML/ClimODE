@@ -116,18 +116,18 @@ for entry,(time_steps,batch) in enumerate(zip(time_loader,Test_loader)):
             for t_step in range(1,len(time_steps),1):
                 evaluate_rmsd = evaluation_rmsd_mm(mean_pred[t_step,yr,:,:,:].cpu(),batch[t_step,yr,:,:,:].cpu(),lat,lon,max_lev,min_lev,H,W,levels)
                 evaluate_acc = evaluation_acc_mm(mean_pred[t_step,yr,:,:,:].cpu(),batch[t_step,yr,:,:,:].cpu(),lat,lon,max_lev,min_lev,H,W,levels,clim[yr,:,:,:].cpu().detach().numpy())
-                evaluate_crps = evaluation_crps_mm(mean_pred[t_step,yr,:,:,:].cpu(),batch[t_step,yr,:,:,:].cpu(),lat,lon,max_lev,min_lev,H,W,levels,std_pred[t_step,yr,:,:,:].cpu())
+                
 
                 for idx,lev in enumerate(levels):
                     Lead_RMSD_arr[lev][t_step-1].append(evaluate_rmsd[idx]) 
                     Lead_ACC[lev][t_step-1].append(evaluate_acc[idx])
-                    Lead_CRPS[lev][t_step-1].append(evaluate_crps[idx])  
+  
 
 for t_idx in range(args.batch_size-1):
     for idx, lev in enumerate(levels):
         print("Lead Time ",(t_idx+1), "Month ","| Observable ",lev, "| Mean RMSD ", np.mean(Lead_RMSD_arr[lev][t_idx]), "| Std RMSD ", np.std(Lead_RMSD_arr[lev][t_idx]))
         print("Lead Time ",(t_idx+1), "Month ","| Observable ",lev, "| Mean ACC ", np.mean(Lead_ACC[lev][t_idx]), "| Std ACC ", np.std(Lead_ACC[lev][t_idx]))
-        print("Lead Time ",(t_idx+1), "Month ","| Observable ",lev, "| Mean CRPS ", np.mean(Lead_CRPS[lev][t_idx]), "| Std CRPS ", np.std(Lead_CRPS[lev][t_idx]))
+
 
 
 
