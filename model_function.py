@@ -60,7 +60,7 @@ class Climate_ResNet_2D(nn.Module):
 
 
 
-class ClimODE_uncertain(nn.Module): 
+class ClimODE_encoder_free_uncertain(nn.Module): 
     
     def __init__(self,num_channels,const_channels,out_types,method,use_att,use_err,use_pos):
         super().__init__()
