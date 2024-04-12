@@ -186,8 +186,8 @@ class Climate_encoder_free_uncertain(nn.Module):
     def forward(self,T,data,atol=0.1,rtol=0.1):
         H,W = self.past_samples.shape[2],self.past_samples.shape[3]
         final_data = torch.cat([self.past_samples ,data.float().view(-1,self.out_ch,H,W)],1)
-        init_time = T[0].item()*24
-        final_time = T[-1].item()*24
+        init_time = T[0].item()*6
+        final_time = T[-1].item()*6
         steps_val = final_time - init_time
         
         #breakpoint()
