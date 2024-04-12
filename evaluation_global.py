@@ -86,7 +86,7 @@ Final_val_data = 0
 
 vel_test= torch.from_numpy(np.load('### Test velocity here'))
 
-model = torch.load("#####Put your model here").to(device)
+model = torch.load(str(cwd) + "checkpoints/ClimODE_global.pt",map_location=torch.device('cpu')).to(device)
 print(model)
 
 org_time = 1
