@@ -142,7 +142,7 @@ class Climate_encoder_free_uncertain(nn.Module):
 
 
         adv1 = v_x*ds_grad_x + v_y*ds_grad_y
-        adv2 = ds*(torch.gradient(v_x,dim=3)[0] + torch.gradient(v_y,dim=2)[0] )]
+        adv2 = ds*(torch.gradient(v_x,dim=3)[0] + torch.gradient(v_y,dim=2)[0] )
 
         ds = adv1 + adv2
         dvs = torch.cat([dv,ds],1)
