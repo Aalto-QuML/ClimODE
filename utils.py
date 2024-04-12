@@ -98,8 +98,6 @@ def get_train_test_data_without_scales_batched(data_path,train_time_scale,val_ti
     max_val = data_global.max()[lev].values.tolist()
     min_val = data_global.min()[lev].values.tolist()
 
-    mean_global = data_global.mean()
-    std_global = data_global.std()
 
     data_train_final = (data_train - min_val)/ (max_val - min_val)
     data_val_final = (data_val - min_val)/ (max_val - min_val)
