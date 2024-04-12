@@ -136,15 +136,12 @@ class Climate_encoder_free_uncertain(nn.Module):
         v_x = v[:,:self.out_ch,:,:].float().view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
         v_y = v[:,-self.out_ch:,:,:].float().view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
 
-        time_point = int((t*100).detach().cpu().numpy())
-        lat = self.lat_map[:,0].detach().cpu().numpy()
-        lon = self.lon_map[0,:].detach().cpu().numpy()
-
-
         adv1 = v_x*ds_grad_x + v_y*ds_grad_y
         adv2 = ds*(torch.gradient(v_x,dim=3)[0] + torch.gradient(v_y,dim=2)[0] )
+        
 
         ds = adv1 + adv2
+
         dvs = torch.cat([dv,ds],1)
         return dvs
     
@@ -215,6 +212,7 @@ class Climate_encoder_free_uncertain(nn.Module):
         t = 0.01*new_time_steps.float().to(data.device).flatten().float()
         pde_rhs  = lambda t,vs: self.pde(t,vs) # make the ODE forward function
         final_result = odeint(pde_rhs,final_data,t,method=self.method,atol=atol,rtol=rtol)
+        #breakpoint()
         s_final = final_result[:,:,-self.out_ch:,:,:].view(len(t),-1,self.out_ch,H,W)
 
         if self.err:
@@ -223,7 +221,7 @@ class Climate_encoder_free_uncertain(nn.Module):
         else:
             s_final = s_final[0:len(s_final):6]
 
-        return mean,std
+        return mean,std,s_final[0:len(s_final):6]
 
 
 
