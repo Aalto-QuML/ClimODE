@@ -89,11 +89,6 @@ vel_test= torch.from_numpy(np.load('### Test velocity here'))
 model = torch.load("#####Put your model here").to(device)
 print(model)
 
-RMSD = []
-RMSD_lat_lon= []
-Pred = []
-Truth  = []
-
 org_time = 1
 RMSD = []
 RMSD_lat_lon= []
