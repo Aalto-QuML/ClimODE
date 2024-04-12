@@ -131,7 +131,7 @@ for epoch in range(args.niters):
         past_sample = vel_train[entry].view(num_years,2*len(paths_to_data)*(args.scale+1),H,W).to(device)
         model.update_param([past_sample,const_channels_info.to(device),lat_map.to(device),lon_map.to(device)])
         t = time_steps.float().to(device).flatten()
-        mean,std = model(t,data)
+        mean,std,_ = model(t,data)
         loss = nll(mean,std,batch.float().to(device),lat,var_coeff)
         l2_lambda = 0.001
         l2_norm = sum(p.pow(2.0).sum()
@@ -154,7 +154,7 @@ for epoch in range(args.niters):
         past_sample = vel_val[entry].view(1,2*len(paths_to_data)*(args.scale+1),H,W).to(device)
         model.update_param([past_sample,const_channels_info.to(device),lat_map.to(device),lon_map.to(device)])
         t = time_steps.float().to(device).flatten()
-        mean,std = model(t,data)
+        mean,std,_ = model(t,data)
         loss = nll(mean,std,batch.float().to(device),lat,var_coeff)
         if torch.isnan(loss) : 
             print("Quitting due to Nan loss")
