@@ -105,8 +105,8 @@ class Climate_encoder_free_uncertain(nn.Module):
 
     def pde(self,t,vs):
 
-        ds = vs[:,-self.out_ch:,:,:].float().view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
-        v = vs[:,:2*self.out_ch,:,:].float().view(-1,2*self.out_ch,vs.shape[2],vs.shape[3]).float()
+        ds = vs[:,-self.out_ch:,:,:].view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
+        v = vs[:,:2*self.out_ch,:,:].view(-1,2*self.out_ch,vs.shape[2],vs.shape[3]).float()
         t_emb = ((t*100)%24).view(1,1,1,1).expand(ds.shape[0],1,ds.shape[2],ds.shape[3])
         sin_t_emb = torch.sin(torch.pi*t_emb/12 - torch.pi/2)
         cos_t_emb = torch.cos(torch.pi*t_emb/12 - torch.pi/2)
@@ -133,8 +133,8 @@ class Climate_encoder_free_uncertain(nn.Module):
 
         if self.att: dv = self.vel_f(comb_rep) + self.gamma*self.vel_att(comb_rep)
         else: dv = self.vel_f(comb_rep)
-        v_x = v[:,:self.out_ch,:,:].float().view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
-        v_y = v[:,-self.out_ch:,:,:].float().view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
+        v_x = v[:,:self.out_ch,:,:].view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
+        v_y = v[:,-self.out_ch:,:,:].view(-1,self.out_ch,vs.shape[2],vs.shape[3]).float()
 
         adv1 = v_x*ds_grad_x + v_y*ds_grad_y
         adv2 = ds*(torch.gradient(v_x,dim=3)[0] + torch.gradient(v_y,dim=2)[0] )
