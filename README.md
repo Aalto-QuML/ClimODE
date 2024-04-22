@@ -108,4 +108,8 @@ To train on a custom dataset, you need to follow the below guidelines
 
 
 
+Note: We are also constantly updating and revising the repo to make it more adaptable in a general way, and finidng bugs and removing them and modifying certain parts.
+
+
+
 
