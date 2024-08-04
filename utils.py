@@ -202,6 +202,36 @@ def evaluation_rmsd_mm(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels):
 
     return RMSD_final
 
+def evaluation_rmsd_mm_region(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels):
+    RMSD_final = []
+    RMSD_lat_lon = []
+    true_lat_lon = []
+    pred_lat_lon = []
+    for idx,lev in enumerate(levels):
+        true_idx = idx
+        das_pred = []
+        das_true = []
+        pred_spectral = Pred[idx,1:].detach().cpu().numpy()
+        true_spectral = Truth[true_idx,1:,:].detach().cpu().numpy()
+
+        pred = pred_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
+
+        das_pred.append(xr.DataArray(pred.reshape(1,H,W),dims=['time','lat','lon'],coords={'time':[0],'lat':lat[1:],'lon':lon},name=lev))
+        Pred_xr = xr.merge(das_pred)
+        
+        true = true_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
+
+        das_true.append(xr.DataArray(true.reshape(1,H,W),dims=['time','lat','lon'],coords={'time':[0],'lat':lat[1:],'lon':lon},name=lev))
+        True_xr = xr.merge(das_true)
+        error = Pred_xr - True_xr
+        weights_lat = np.cos(np.deg2rad(error.lat))
+        weights_lat /= weights_lat.mean()
+        rmse = np.sqrt(((error)**2 * weights_lat).mean(dim=['lat','lon'])).mean(dim=['time'])
+        lat_lon_rmse = np.sqrt((error)**2)
+        RMSD_lat_lon.append(lat_lon_rmse[lev].values)
+        RMSD_final.append(rmse[lev].values.tolist())
+
+    return RMSD_final
 
 def evaluation_acc_mm(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels,clim):
     ACC_final = []
@@ -228,6 +258,32 @@ def evaluation_acc_mm(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels,clim):
 
     
     return ACC_final
+
+def evaluation_acc_mm_region(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels,clim):
+    ACC_final = []
+    
+    for idx,lev in enumerate(levels):
+        pred_spectral = Pred[idx,1:].detach().cpu().numpy()
+        true_spectral = Truth[idx,1:,:].detach().cpu().numpy()
+        pred_spectral = pred_spectral - clim[idx,1:]
+        true_spectral = true_spectral - clim[idx,1:]
+
+        pred = pred_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
+        true = true_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
+
+        weights_lat = np.cos(np.deg2rad(lat[1:]))
+        weights_lat /= weights_lat.mean()
+        weights_lat = weights_lat.reshape(len(lat[1:]),1)
+        weights_lat = weights_lat.repeat(len(lon),1)
+
+        pred_prime = pred - np.mean(pred)
+        true_prime = true - np.mean(true)
+
+        acc= np.sum(weights_lat * pred_prime * true_prime) / np.sqrt(np.sum(weights_lat * pred_prime**2) * np.sum(weights_lat * true_prime**2))
+        ACC_final.append(acc)                                                        
+
+    
+    return ACC_final 
 
 
 def evaluation_crps_mm(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels,Sigma):
