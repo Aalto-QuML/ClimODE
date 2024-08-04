@@ -211,17 +211,17 @@ def evaluation_rmsd_mm_region(Pred,Truth,lat,lon,max_vals,min_vals,H,W,levels):
         true_idx = idx
         das_pred = []
         das_true = []
-        pred_spectral = Pred[idx,1:].detach().cpu().numpy()
-        true_spectral = Truth[true_idx,1:,:].detach().cpu().numpy()
+        pred_spectral = Pred[idx,1:,1:].detach().cpu().numpy()
+        true_spectral = Truth[true_idx,1:,1:].detach().cpu().numpy()
 
         pred = pred_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
 
-        das_pred.append(xr.DataArray(pred.reshape(1,H,W),dims=['time','lat','lon'],coords={'time':[0],'lat':lat[1:],'lon':lon},name=lev))
+        das_pred.append(xr.DataArray(pred.reshape(1,H,W-1),dims=['time','lat','lon'],coords={'time':[0],'lat':lat[1:],'lon':lon[1:]},name=lev))
         Pred_xr = xr.merge(das_pred)
         
         true = true_spectral*(max_vals[idx] - min_vals[idx]) + min_vals[idx]
 
-        das_true.append(xr.DataArray(true.reshape(1,H,W),dims=['time','lat','lon'],coords={'time':[0],'lat':lat[1:],'lon':lon},name=lev))
+        das_true.append(xr.DataArray(true.reshape(1,H,W-1),dims=['time','lat','lon'],coords={'time':[0],'lat':lat[1:],'lon':lon[1:]},name=lev))
         True_xr = xr.merge(das_true)
         error = Pred_xr - True_xr
         weights_lat = np.cos(np.deg2rad(error.lat))
