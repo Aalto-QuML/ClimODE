@@ -101,8 +101,8 @@ for entry,(time_steps,batch) in enumerate(zip(time_loader,Test_loader)):
   mean_pred,std_pred = model(t,data)
   for yr in range(2): 
             for t_step in range(1,len(time_steps),1):
-                evaluate_rmsd = evaluation_rmsd_mm(mean_pred[t_step,yr,:,:,:],batch[t_step,yr,:,:,:],lat,lon,max_lev,min_lev,H,W,levels)
-                evaluate_acc = evaluation_acc_mm(mean_pred[t_step,yr,:,:,:],batch[t_step,yr,:,:,:],lat,lon,max_lev,min_lev,H,W,levels,clim[yr,:,:,:].cpu().detach().numpy())
+                evaluate_rmsd = evaluation_rmsd_mm_region(mean_pred[t_step,yr,:,:,:],batch[t_step,yr,:,:,:],lat,lon,max_lev,min_lev,H,W,levels)
+                evaluate_acc = evaluation_acc_mm_region(mean_pred[t_step,yr,:,:,:],batch[t_step,yr,:,:,:],lat,lon,max_lev,min_lev,H,W,levels,clim[yr,:,:,:].cpu().detach().numpy())
                 for idx,lev in enumerate(levels):
                     Lead_RMSD_arr[lev][t_step-1].append(evaluate_rmsd[idx])
                     Lead_ACC[lev][t_step-1].append(evaluate_acc[idx])
