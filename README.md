@@ -12,7 +12,7 @@ If you find this repository useful in your research, please consider citing the 
  ```
 @inproceedings{
 verma2024climode,
-title={Clim{ODE}: Climate Forecasting With Physics-informed Neural {ODE}s},
+title={Clim{ODE}: Climate and Weather Forecasting with Physics-informed Neural {ODE}s},
 author={Yogesh Verma and Markus Heinonen and Vikas Garg},
 booktitle={The Twelfth International Conference on Learning Representations},
 year={2024},
