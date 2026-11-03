@@ -130,7 +130,8 @@ for epoch in range(args.niters):
         data = batch[0].to(device).view(num_years,1,len(paths_to_data)*(args.scale+1),H,W)
         past_sample = vel_train[entry].view(num_years,2*len(paths_to_data)*(args.scale+1),H,W).to(device)
         model.update_param([past_sample,const_channels_info.to(device),lat_map.to(device),lon_map.to(device)])
-        t = time_steps.float().to(device).flatten()
+        #t = time_steps.float().to(device).flatten()
+        t = torch.tensor([ii for ii in range(2,2+len(batch))]).to(device)
         mean,std,_ = model(t,data)
         loss = nll(mean,std,batch.float().to(device),lat,var_coeff)
         l2_lambda = 0.001
@@ -153,7 +154,8 @@ for epoch in range(args.niters):
         data = batch[0].to(device).view(1,1,len(paths_to_data)*(args.scale+1),H,W)
         past_sample = vel_val[entry].view(1,2*len(paths_to_data)*(args.scale+1),H,W).to(device)
         model.update_param([past_sample,const_channels_info.to(device),lat_map.to(device),lon_map.to(device)])
-        t = time_steps.float().to(device).flatten()
+        #t = time_steps.float().to(device).flatten()
+        t = torch.tensor([ii for ii in range(2,2+len(batch))]).to(device)
         mean,std,_ = model(t,data)
         loss = nll(mean,std,batch.float().to(device),lat,var_coeff)
         if torch.isnan(loss) : 
