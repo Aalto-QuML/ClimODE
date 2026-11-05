@@ -1,6 +1,6 @@
 # ClimODE: Climate and Weather Forecasting With Physics-informed Neural ODEs
 
- [Yogesh verma](https://yoverma.github.io/yoerma.github.io/) | [Markus Heinonen](https://users.aalto.fi/~heinom10/) |  [Vikas Garg](https://www.mit.edu/~vgarg/)
+ [Yogesh verma](https://yogeshverma1998.github.io/) | [Markus Heinonen](https://users.aalto.fi/~heinom10/) |  [Vikas Garg](https://www.mit.edu/~vgarg/)
  
 The code repository for the paper ClimODE: Climate and Weather Forecasting With Physics-informed Neural ODEs. More information can be found on the project [website](https://yogeshverma1998.github.io/ClimODE/). 
 <p align="center">
